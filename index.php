@@ -11,6 +11,117 @@
   <script src="js/script.js"></script>
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
   <script>
+
+  var x = y = 0;
+  var gold = true;
+  var primeWinTimer = setInterval(function(){
+    // Zeiten übertragen
+    $('#kampfzeitView').html(getKampfzeitForView());
+    $('#haltegriffView').html(refreshHaltegriffDisplay());
+
+    // Hintergrundfarben anpassen
+    if (!kampfBegonnen) {
+      $('#time').css('background-color', 'purple');
+    } else if (kampfzeitPause) {
+      $('#time').css('background-color', 'red');
+    }
+
+    if (!kampfzeitPause) {
+      $('#time').css('background-color', 'green');
+      if (inGoldenScore) {
+        $('#time').css('background-color', 'gold');
+      }
+    }
+
+    if (inGoldenScore) {
+      $('#controllView').html('Golden Score');
+      $('#kampfzeitCell').css('background-color', 'none');
+    }
+
+    if (x == 0) { gold = true; }
+    if (x == 25) { gold = false; }
+
+    // Seite 1 == Weiss
+    if (haltegriffSeite == 1) {
+      $('#haltegriffCell').css('background-color', 'white');
+
+      if (haltegriffAbgelaufenStatus) {
+        if (gold) {
+          $('#haltegriffCell').css('background-color', 'gold');
+          x++;
+        }
+
+        if (!gold) {
+          $('#haltegriffCell').css('background-color', 'white');
+          x--;
+        }
+      }
+    }
+
+    // Seite 2 == Blau
+    if (haltegriffSeite == 2) {
+      $('#haltegriffCell').css('background-color', 'blue');
+
+      if (haltegriffAbgelaufenStatus) {
+        if (gold) {
+          $('#haltegriffCell').css('background-color', 'gold');
+          x++;
+        }
+
+        if (!gold) {
+          $('#haltegriffCell').css('background-color', 'blue');
+          x--;
+        }
+      }
+    }
+
+    // Seite 0 == None
+    if (haltegriffSeite == 0){
+      $('#haltegriffCell').css('background-color', 'none');
+
+      if (haltegriffAbgelaufenStatus) {
+        if (gold) {
+          $('#haltegriffCell').css('background-color', 'gold');
+          x++;
+        }
+
+        if (!gold) {
+          $('#haltegriffCell').css('background-color', 'none');
+          x--;
+        }
+      }
+    }
+
+    if (kampfzeitAbgelaufenStatus) {
+      if (gold) {
+        $('#kampfzeitCell').css('background-color', 'gold');
+        x++;
+      }
+
+      if (!gold) {
+        if (!kampfzeitPause) {
+          $('#kampfzeitCell').css('background-color', 'green');
+        }
+
+        if (kampfzeitPause) {
+          $('#kampfzeitCell').css('background-color', 'red');
+        }
+        x--;
+      }
+    }
+
+    // Wertungen überragen
+    $('#ipponWeissView').text(getPointView(ipponWeiss));
+    $('#wazaAriWeissView').text(getPointView(wazaAriWeiss));
+    $('#yukoWeissView').text(getPointView(yukoWeiss));
+    $('#strafenWeissView').text(getPointView(strafenWeiss));
+    $('#ipponBlauView').text(getPointView(ipponBlau));
+    $('#wazaAriBlauView').text(getPointView(wazaAriBlau));
+    $('#yukoBlauView').text(getPointView(yukoBlau));
+    $('#strafenBlauView').text(getPointView(strafenBlau));
+  }, 20);
+
+  // Wenn Seite geladen
     $(document).ready(function(){
       loadSettings();
       disableHaltegriffButton();
@@ -23,18 +134,20 @@
       }
 
       if (!settings.names) {
-        $('#kaempferCellWeiss').hide(); //keampfer muss TYOP! ToFix!
+        $('#kaempferCellWeiss').hide();
         $('#kaempferCellBlau').hide();
       }
 
       if (!settings.topbar) {
         //$('nav').hide();
+        // TODO hotfix, da .hide() Layout zerstört
         $('nav').css({"background-color": "white", "color": "white"});
       }
 
       // out of ORDER!
       if (!settings.bottombar) {
         //$('footer').hide();
+        // TODO hotfix, da .hide() Layout zerstört
         $('footer').css({"background-color": "blue", "color": "blue"});
       }
     });

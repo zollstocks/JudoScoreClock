@@ -1,5 +1,7 @@
 // script.js
 
+// TODO: So umschreiben, dass funtionen nur noch return geben und nicht mehr direkt aus der Funktion HTML/CSS verändern.
+
 // SETTINGS
 
 var settings = {

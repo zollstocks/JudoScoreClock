@@ -1,0 +1,178 @@
+html, body, div, nav, footer {
+  box-sizing: border-box;
+  font-family: sans-serif; }
+
+html, body {
+  margin: 0;
+  padding: 0; }
+
+.unselectable {
+  -moz-user-select: none;
+  -webkit-user-select: none; }
+
+table {
+  width: 100%;
+  height: 100%; }
+
+#categoryButton {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 3px solid white;
+  border-radius: 7vh;
+  -webkit-border-radius: 7vh;
+  -moz-border-radius: 7vh;
+  padding: 8px 16px;
+  width: 50%;
+  height: 5.5vh;
+  font-size: 2.5vh;
+  text-align: center;
+  background-color: #d9d9d9;
+  color: black; }
+
+#categoryButton:hover {
+  background-color: #bfbfbf; }
+
+nav, footer {
+  background-color: black;
+  color: white;
+  height: 7vh;
+  min-height: 30px;
+  text-align: center;
+  font-weight: bolder;
+  font-size: 3vh; }
+  nav td, footer td {
+    width: 33.33%; }
+
+h1, h2 {
+  margin: 0;
+  padding-left: 10px; }
+
+h1 {
+  font-size: 9vh;
+  padding-top: 2vh;
+  padding-bottom: 0.5vh; }
+
+h2 {
+  padding-top: 0; }
+
+p {
+  margin: 0; }
+
+.line {
+  height: 32vh;
+  min-height: 100px; }
+
+.smallline {
+  height: 29vh;
+  min-height: 100px; }
+
+.time {
+  font-family: Menlo, monospace;
+  text-align: center;
+  font-size: 20vh;
+  font-weight: bold; }
+
+#weiss {
+  background-color: white; }
+
+#blau {
+  background-color: blue; }
+
+#time {
+  background-color: purple; }
+
+table, tr, td {
+  border-collapse: collapse; }
+  table td#controllTable, tr td#controllTable, td td#controllTable {
+    width: 50%; }
+
+table #kampfzeitCell {
+  width: 40%; }
+table #steuerungCell {
+  width: 30%; }
+table #haltegriffCell {
+  width: auto; }
+
+table.kaempferline td.kaempfername {
+  width: 55%; }
+table.kaempferline td.punktwertung {
+  width: auto;
+  padding: 10px;
+  font-weight: bold; }
+
+#steuerungCell {
+  font-size: 1.3vh; }
+  #steuerungCell button {
+    display: block;
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: white;
+    border: 2px solid black;
+    font-size: 1.3vh;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    padding: 5px; }
+  #steuerungCell button:hover, #steuerungCell button:focus {
+    background: #e6e6e6; }
+  #steuerungCell .importantButton {
+    font-weight: bold;
+    background: orange; }
+  #steuerungCell button.importantButton:hover, #steuerungCell button.importantButton:focus {
+    background: #ffb733; }
+
+.wertung {
+  text-align: center; }
+
+table.wertung {
+  border-width: 0px; }
+
+tr.wertung {
+  border-width: 0px; }
+
+td.wertung {
+  border-width: 0px; }
+
+.pointhead {
+  border-top-right-radius: 7px;
+  border-top-left-radius: 7px;
+  height: 35px;
+  font-weight: bolder; }
+
+div.weiss tr.pointhead {
+  background-color: #cccccc;
+  border-bottom: none; }
+
+div.weiss tr.pointbottom {
+  background-color: #e0e0e0;
+  border-top: none; }
+
+.pointbottom {
+  border-bottom-right-radius: 7px;
+  border-bottom-left-radius: 7px;
+  font-size: 17vh; }
+
+div.blau tr.pointhead {
+  background-color: #6666ff; }
+
+div.blau tr.pointbottom {
+  background-color: #3d3dff; }
+
+footer td {
+  width: 50%; }
+
+.left {
+  text-align: left;
+  padding-left: 10px; }
+
+.right {
+  text-align: right;
+  padding-right: 10px; }
+
+#uhrzeit {
+  font-family: Menlo, monospace; }
+
+/*# sourceMappingURL=Style.css.map */

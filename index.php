@@ -10,12 +10,120 @@
   <title>JudoScoreClock Controller</title>
   <script src="js/script.js"></script>
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+
   <script>
+    var x = y = 0;
+    var gold = true;
+    var primeWinTimer = setInterval(function(){
+      // Zeiten übertragen
+      $('#kampfzeit').html(refreshKampfzeitDisplay());
+      $('#haltegriff').html(refreshHaltegriffDisplay());
+
+      // Hintergrundfarben anpassen
+      // Kampfzeit
+      if (!kampfBegonnen) {
+        $('#time').css('background-color', 'purple');
+        $('#kampfzeitCell').css('background-color', '');
+      } else if (kampfzeitPause) {
+        $('#time').css('background-color', 'red');
+      }
+
+      if (!kampfzeitPause) {
+        $('#time').css('background-color', 'green');
+        if (inGoldenScore) {
+          $('#time').css('background-color', 'gold');
+        }
+      }
+
+      if (inGoldenScore) {
+        $('#controllView').html('Golden Score');
+        $('#kampfzeitCell').css('background-color', '');
+      }
+
+      if (kampfzeitAbgelaufenStatus) {
+        if (flash()) {
+          $('#kampfzeitCell').css('background-color', 'gold');
+        }
+
+        if (!flash()) {
+          if (!kampfzeitPause) {
+            $('#kampfzeitCell').css('background-color', 'green');
+          }
+          if (kampfzeitPause) {
+            $('#kampfzeitCell').css('background-color', 'red');
+          }
+        }
+      }
+
+      // Haltegriffe
+      // Seite 1 == Weiss
+      if (haltegriffSeite == 1) {
+        $('#haltegriffCell').css('background-color', 'white');
+
+        if (haltegriffAbgelaufenStatus) {
+          if (flash()) {
+            $('#haltegriffCell').css('background-color', 'gold');
+          }
+          if (!flash()) {
+            $('#haltegriffCell').css('background-color', 'white');
+          }
+        }
+      }
+
+      // Seite 2 == Blau
+      if (haltegriffSeite == 2) {
+        $('#haltegriffCell').css('background-color', 'blue');
+
+        if (haltegriffAbgelaufenStatus) {
+          if (flash()) {
+            $('#haltegriffCell').css('background-color', 'gold');
+          }
+          if (!flash()) {
+            $('#haltegriffCell').css('background-color', 'blue');
+          }
+        }
+      }
+
+      // Seite 0 == None
+      if (haltegriffSeite == 0){
+        $('#haltegriffCell').css('background-color', '');
+
+        if (haltegriffAbgelaufenStatus) {
+          if (flash()) {
+            $('#haltegriffCell').css('background-color', 'gold');
+          }
+          if (!flash()) {
+            $('#haltegriffCell').css('background-color', '');
+          }
+        }
+      }
+
+      if (haltegriffResetStatus) {
+        // Nur für Controller
+        $('#haltegriffButtonWeiss').html('Haltegriff Weiß (starten)');
+        $('#haltegriffButtonBlau').html('Haltegriff Blau (starten)');
+      }
+
+      // Wertungen überragen
+      $('#ipponWeissView').text(getPointView(ipponWeiss));
+      $('#wazaAriWeissView').text(getPointView(wazaAriWeiss));
+      $('#yukoWeissView').text(getPointView(yukoWeiss));
+      $('#strafenWeissView').text(getPointView(strafenWeiss));
+      $('#ipponBlauView').text(getPointView(ipponBlau));
+      $('#wazaAriBlauView').text(getPointView(wazaAriBlau));
+      $('#yukoBlauView').text(getPointView(yukoBlau));
+      $('#strafenBlauView').text(getPointView(strafenBlau));
+    }, 20);
+
+    // Wenn Seite geladen
     $(document).ready(function(){
+      console.log("Window 1 geladen");
       loadSettings();
       disableHaltegriffButton();
       refreshKampfzeitDisplay();
       refreshHaltegriffDisplay();
+
+      $('#categoryHinweis').text(settings.category);
 
       if (!settings.settingYuko) {
         $('#yukoCellWeiss').hide();
@@ -23,18 +131,20 @@
       }
 
       if (!settings.names) {
-        $('#kaempferCellWeiss').hide(); //keampfer muss TYOP! ToFix!
+        $('#kaempferCellWeiss').hide();
         $('#kaempferCellBlau').hide();
       }
 
       if (!settings.topbar) {
         //$('nav').hide();
+        // TODO hotfix, da .hide() Layout zerstört
         $('nav').css({"background-color": "white", "color": "white"});
       }
 
       // out of ORDER!
       if (!settings.bottombar) {
         //$('footer').hide();
+        // TODO hotfix, da .hide() Layout zerstört
         $('footer').css({"background-color": "blue", "color": "blue"});
       }
     });
@@ -49,7 +159,7 @@
           Osnabrück - Crocodiles Cup 2018
         </td>
         <td><button type="button" name="secondaryWindowButton" onclick="openSecondaryWindow()">2. Fesnter öffnen</button><p>Matte <span id="mattennummer"></span></p></td>
-        <td class="right"><span id="categoryHinweis">Kategorie/Info: </span><button id="categoryButton" onclick="buttonPromt()">eingeben...</button></td>
+        <td class="right"><span id="categoryHinweis">Kategorie/Info: </span></td>
       </tr>
     </table>
   </nav>
@@ -96,16 +206,16 @@
   </div>
 
   <!-- Aktuell rausgenommen, da dynamische Namen noch nicht funktionieren
-    7vh auf per hardcode in style.scss auf die .line und .smallline verteilt -->
+  7vh auf per hardcode in style.scss auf die .line und .smallline verteilt -->
   <!-- <footer class="navigation">
-    <table>
-      <tr>
-        <td class="prepare left">Vorbereiten: <span class="prepareName1">KämferNextWeiß</span> gegen <span class="prepareName2">KämpferNextBlau</span></td>
-        <td class="prepareCategory">Vorbereiten in 2. Runde - U21 M&auml;nnlich -66kg</td>
-        <td class="right" id="uhrzeit">Uhrzeit</td>
-      </tr>
-    </table>
-  </footer> -->
+  <table>
+  <tr>
+  <td class="prepare left">Vorbereiten: <span class="prepareName1">KämferNextWeiß</span> gegen <span class="prepareName2">KämpferNextBlau</span></td>
+  <td class="prepareCategory">Vorbereiten in 2. Runde - U21 M&auml;nnlich -66kg</td>
+  <td class="right" id="uhrzeit">Uhrzeit</td>
+</tr>
+</table>
+</footer> -->
 </body>
 </html>
 <HTML>

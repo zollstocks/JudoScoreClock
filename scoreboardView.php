@@ -10,116 +10,114 @@
   <title>JSC View</title>
   <script src="js/script.js"></script>
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+
   <script>
     var x = y = 0;
     var gold = true;
+    var op = opener;
     var secondWinTimer = setInterval(function(){
       // Zeiten übertragen
-      $('#kampfzeitView').html(opener.getKampfzeitForView());
-      $('#haltegriffView').html(opener.refreshHaltegriffDisplay());
+      $('#kampfzeitView').html(op.refreshKampfzeitDisplay());
+      $('#haltegriffView').html(op.refreshHaltegriffDisplay());
 
       // Hintergrundfarben anpassen
-      if (!opener.kampfBegonnen) {
+      // Kampfzeit
+      if (!op.kampfBegonnen) {
         $('#time').css('background-color', 'purple');
-      } else if (opener.kampfzeitPause) {
+      } else if (op.kampfzeitPause) {
         $('#time').css('background-color', 'red');
       }
 
-      if (!opener.kampfzeitPause) {
+      if (!op.kampfzeitPause) {
         $('#time').css('background-color', 'green');
-        if (opener.inGoldenScore) {
+        if (op.inGoldenScore) {
           $('#time').css('background-color', 'gold');
         }
       }
 
-      if (opener.inGoldenScore) {
+      if (op.inGoldenScore) {
         $('#controllView').html('Golden Score');
-        $('#kampfzeitCell').css('background-color', 'none');
+        $('#kampfzeitCell').css('background-color', '');
       }
 
-      if (x == 0) { gold = true; }
-      if (x == 25) { gold = false; }
-
-      if (opener.haltegriffSeite == 1) {
-        $('#haltegriffCell').css('background-color', 'white');
-
-        if (opener.haltegriffAbgelaufenStatus) {
-          if (gold) {
-            $('#haltegriffCell').css('background-color', 'gold');
-            x++;
-          }
-
-          if (!gold) {
-            $('#haltegriffCell').css('background-color', 'white');
-            x--;
-          }
-        }
+      if (!op.inGoldenScore) {
+        $('#controllView').html('');
       }
 
-      if (opener.haltegriffSeite == 2) {
-        $('#haltegriffCell').css('background-color', 'blue');
-
-        if (opener.haltegriffAbgelaufenStatus) {
-          if (gold) {
-            $('#haltegriffCell').css('background-color', 'gold');
-            x++;
-          }
-
-          if (!gold) {
-            $('#haltegriffCell').css('background-color', 'blue');
-            x--;
-          }
-        }
-      }
-
-      if (opener.haltegriffSeite == 0){
-        $('#haltegriffCell').css('background-color', 'none');
-
-        if (opener.haltegriffAbgelaufenStatus) {
-          if (gold) {
-            $('#haltegriffCell').css('background-color', 'gold');
-            x++;
-          }
-
-          if (!gold) {
-            $('#haltegriffCell').css('background-color', 'none');
-            x--;
-          }
-        }
-      }
-
-      if (opener.kampfzeitAbgelaufenStatus) {
-        if (gold) {
+      if (op.kampfzeitAbgelaufenStatus) {
+        if (flash()) {
           $('#kampfzeitCell').css('background-color', 'gold');
-          x++;
         }
 
-        if (!gold) {
-          if (!opener.kampfzeitPause) {
+        if (!flash()) {
+          if (!op.kampfzeitPause) {
             $('#kampfzeitCell').css('background-color', 'green');
           }
-
-          if (opener.kampfzeitPause) {
+          if (op.kampfzeitPause) {
             $('#kampfzeitCell').css('background-color', 'red');
           }
-          x--;
+        }
+      }
+
+      // Haltegriffe
+      // Seite 1 == Weiss
+      if (op.haltegriffSeite == 1) {
+        $('#haltegriffCell').css('background-color', 'white');
+
+        if (op.haltegriffAbgelaufenStatus) {
+          if (flash()) {
+            $('#haltegriffCell').css('background-color', 'gold');
+          }
+          if (!flash()) {
+            $('#haltegriffCell').css('background-color', 'white');
+          }
+        }
+      }
+
+      // Seite 2 == Blau
+      if (op.haltegriffSeite == 2) {
+        $('#haltegriffCell').css('background-color', 'blue');
+
+        if (op.haltegriffAbgelaufenStatus) {
+          if (flash()) {
+            $('#haltegriffCell').css('background-color', 'gold');
+          }
+          if (!flash()) {
+            $('#haltegriffCell').css('background-color', 'blue');
+          }
+        }
+      }
+
+      // Seite 0 == None
+      if (op.haltegriffSeite == 0){
+        $('#haltegriffCell').css('background-color', '');
+
+        if (op.haltegriffAbgelaufenStatus) {
+          if (flash()) {
+            $('#haltegriffCell').css('background-color', 'gold');
+          }
+          if (!flash()) {
+            $('#haltegriffCell').css('background-color', '');
+          }
         }
       }
 
       // Wertungen überragen
-      $('#ipponWeissView').text(opener.getPointView(opener.ipponWeiss));
-      $('#wazaAriWeissView').text(opener.getPointView(opener.wazaAriWeiss));
-      $('#yukoWeissView').text(opener.getPointView(opener.yukoWeiss));
-      $('#strafenWeissView').text(opener.getPointView(opener.strafenWeiss));
-      $('#ipponBlauView').text(opener.getPointView(opener.ipponBlau));
-      $('#wazaAriBlauView').text(opener.getPointView(opener.wazaAriBlau));
-      $('#yukoBlauView').text(opener.getPointView(opener.yukoBlau));
-      $('#strafenBlauView').text(opener.getPointView(opener.strafenBlau));
+      $('#ipponWeissView').text(op.getPointView(op.ipponWeiss));
+      $('#wazaAriWeissView').text(op.getPointView(op.wazaAriWeiss));
+      $('#yukoWeissView').text(op.getPointView(op.yukoWeiss));
+      $('#strafenWeissView').text(op.getPointView(op.strafenWeiss));
+      $('#ipponBlauView').text(op.getPointView(op.ipponBlau));
+      $('#wazaAriBlauView').text(op.getPointView(op.wazaAriBlau));
+      $('#yukoBlauView').text(op.getPointView(op.yukoBlau));
+      $('#strafenBlauView').text(op.getPointView(op.strafenBlau));
     }, 20);
 
     $(document).ready(function(){
-      console.log("Settings geladen");
+      console.log("Window 2 geladen");
       loadSettings();
+
+      $('#categoryHinweis').text(settings.category);
 
       if (!settings.settingYuko) {
         $('#yukoCellWeiss').hide();
@@ -163,7 +161,7 @@
       <tr>
         <td class="kaempfername" id="kaempferCellWeiss">
           <!-- Dynamic one day -->
-          <h1>Stöckel, Felix</h1></br>
+          <h1>WWWWWWWWWW, WWWWWWWWWW</h1></br>
           <h2>Niedersachsen / Judo Crocodiles Osnabrück</h2>
         </td>
         <!-- Ippon -->

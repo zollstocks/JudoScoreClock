@@ -10,18 +10,20 @@
   <title>JudoScoreClock Controller</title>
   <script src="js/script.js"></script>
   <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
-  <script>
 
+  <script>
   var x = y = 0;
   var gold = true;
   var primeWinTimer = setInterval(function(){
     // Zeiten übertragen
-    $('#kampfzeitView').html(getKampfzeitForView());
-    $('#haltegriffView').html(refreshHaltegriffDisplay());
+    $('#kampfzeit').html(refreshKampfzeitDisplay());
+    $('#haltegriff').html(refreshHaltegriffDisplay());
 
     // Hintergrundfarben anpassen
+    // Kampfzeit
     if (!kampfBegonnen) {
       $('#time').css('background-color', 'purple');
+      $('#kampfzeitCell').css('background-color', '');
     } else if (kampfzeitPause) {
       $('#time').css('background-color', 'red');
     }
@@ -35,25 +37,35 @@
 
     if (inGoldenScore) {
       $('#controllView').html('Golden Score');
-      $('#kampfzeitCell').css('background-color', 'none');
+      $('#kampfzeitCell').css('background-color', '');
     }
 
-    if (x == 0) { gold = true; }
-    if (x == 25) { gold = false; }
+    if (kampfzeitAbgelaufenStatus) {
+      if (flash()) {
+        $('#kampfzeitCell').css('background-color', 'gold');
+      }
 
+      if (!flash()) {
+        if (!kampfzeitPause) {
+          $('#kampfzeitCell').css('background-color', 'green');
+        }
+        if (kampfzeitPause) {
+          $('#kampfzeitCell').css('background-color', 'red');
+        }
+      }
+    }
+
+    // Haltegriffe
     // Seite 1 == Weiss
     if (haltegriffSeite == 1) {
       $('#haltegriffCell').css('background-color', 'white');
 
       if (haltegriffAbgelaufenStatus) {
-        if (gold) {
+        if (flash()) {
           $('#haltegriffCell').css('background-color', 'gold');
-          x++;
         }
-
-        if (!gold) {
+        if (!flash()) {
           $('#haltegriffCell').css('background-color', 'white');
-          x--;
         }
       }
     }
@@ -63,51 +75,33 @@
       $('#haltegriffCell').css('background-color', 'blue');
 
       if (haltegriffAbgelaufenStatus) {
-        if (gold) {
+        if (flash()) {
           $('#haltegriffCell').css('background-color', 'gold');
-          x++;
         }
-
-        if (!gold) {
+        if (!flash()) {
           $('#haltegriffCell').css('background-color', 'blue');
-          x--;
         }
       }
     }
 
     // Seite 0 == None
     if (haltegriffSeite == 0){
-      $('#haltegriffCell').css('background-color', 'none');
+      $('#haltegriffCell').css('background-color', '');
 
       if (haltegriffAbgelaufenStatus) {
-        if (gold) {
+        if (flash()) {
           $('#haltegriffCell').css('background-color', 'gold');
-          x++;
         }
-
-        if (!gold) {
-          $('#haltegriffCell').css('background-color', 'none');
-          x--;
+        if (!flash()) {
+          $('#haltegriffCell').css('background-color', '');
         }
       }
     }
 
-    if (kampfzeitAbgelaufenStatus) {
-      if (gold) {
-        $('#kampfzeitCell').css('background-color', 'gold');
-        x++;
-      }
-
-      if (!gold) {
-        if (!kampfzeitPause) {
-          $('#kampfzeitCell').css('background-color', 'green');
-        }
-
-        if (kampfzeitPause) {
-          $('#kampfzeitCell').css('background-color', 'red');
-        }
-        x--;
-      }
+    if (haltegriffResetStatus) {
+      // Nur für Controller
+      $('#haltegriffButtonWeiss').html('Haltegriff Weiß (starten)');
+      $('#haltegriffButtonBlau').html('Haltegriff Blau (starten)');
     }
 
     // Wertungen überragen
@@ -123,6 +117,7 @@
 
   // Wenn Seite geladen
     $(document).ready(function(){
+      console.log("Window 1 geladen");
       loadSettings();
       disableHaltegriffButton();
       refreshKampfzeitDisplay();
@@ -162,7 +157,7 @@
           Osnabrück - Crocodiles Cup 2018
         </td>
         <td><button type="button" name="secondaryWindowButton" onclick="openSecondaryWindow()">2. Fesnter öffnen</button><p>Matte <span id="mattennummer"></span></p></td>
-        <td class="right"><span id="categoryHinweis">Kategorie/Info: </span><button id="categoryButton" onclick="buttonPromt()">eingeben...</button></td>
+        <td class="right"><span id="categoryHinweis">Kategorie/Info: </span></td>
       </tr>
     </table>
   </nav>

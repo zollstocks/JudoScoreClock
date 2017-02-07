@@ -175,4 +175,8 @@ footer td {
 #uhrzeit {
   font-family: Menlo, monospace; }
 
+#controllView {
+  font-family: Arial, sans-serif;
+  font-size: 4vh; }
+
 /*# sourceMappingURL=Style.css.map */

@@ -117,6 +117,8 @@
       console.log("Window 2 geladen");
       loadSettings();
 
+      $('#categoryHinweis').text(settings.category);
+
       if (!settings.settingYuko) {
         $('#yukoCellWeiss').hide();
         $('#yukoCellBlau').hide();
@@ -159,7 +161,7 @@
       <tr>
         <td class="kaempfername" id="kaempferCellWeiss">
           <!-- Dynamic one day -->
-          <h1>Stöckel, Felix</h1></br>
+          <h1>WWWWWWWWWW, WWWWWWWWWW</h1></br>
           <h2>Niedersachsen / Judo Crocodiles Osnabrück</h2>
         </td>
         <!-- Ippon -->

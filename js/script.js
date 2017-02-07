@@ -1,38 +1,36 @@
 // script.js
 
-// TODO: So umschreiben, dass funtionen nur noch return geben und nicht mehr direkt aus der Funktion HTML/CSS verändern.
-
 // SETTINGS
-
 var settings = {
   mattennummer: '1',
   settingKampfzeit: 240,
   settingHaltegriffzeit: 20,
-  settingYuko: true,
+  settingYuko: false,
   maxStafen: 2, // legt die maximale Anzahl an Strafen fest
-  names: false,
+  names: true,
   topbar: true, // sollte noch angepasst/verbessert werden
   bottombar: true, // sollte noch angepasst/verbessert werden // Zur zeit rausgenommen!!!
   goldenScore: true, // false derzeit nicht möglich
-  goldenScoreLimit: 0 // 0, wenn kein Limit (OpenEnd)
-  //category: 'U21 Männlich -66kg'
+  goldenScoreLimit: 0, // 0, wenn kein Limit (OpenEnd)
+  category: 'U21 Männlich -66kg'
 };
 
+// var ak = "u12";
 // var settings = {
 //   mattennummer: '1',
-//   name: false,
+//   names: false,
 //   topbar: true, // sollte noch angepasst/verbessert werden
 //   bottombar: true, // sollte noch angepasst/verbessert werden // Zur zeit rausgenommen!!!
-//   u12: {
+//   "u12": {
 //     settingKampfzeit: 240,
 //     settingHaltegriffzeit: 20,
-//     settingYuko: true,
+//     settingYuko: false,
 //     maxStafen: 2, // legt die maximale Anzahl an Strafen fest
 //     goldenScore: true, // false derzeit nicht möglich
 //     goldenScoreLimit: 0 // 0, wenn kein Limit (OpenEnd)
 //     //category: 'U21 Männlich -66kg'
 //   },
-//   u15: {
+//   "u15": {
 //     settingKampfzeit: 240,
 //     settingHaltegriffzeit: 20,
 //     settingYuko: true,

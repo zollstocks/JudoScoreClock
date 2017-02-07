@@ -57,6 +57,13 @@ nav, footer {
   }
 }
 
+#mattennummer {
+  color: red;
+  font-size: 5vh;
+}
+
+
+
 h1, h2 {
   margin: 0;
   padding-left: 10px;
@@ -126,7 +133,12 @@ table{
 }
 
 table.kaempferline{
-  td.kaempfername {width: 55%}
+
+  td.kaempfername {
+    width: 55%;
+    h1{ font-size: 9vh }
+    h2{ font-size: 3vh }
+  }
   td.punktwertung {width: auto; padding: 10px; font-weight: bold;}
 }
 
